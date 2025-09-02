@@ -2,7 +2,7 @@
 
 GenBanana is a web-based tool that allows you to generate unique images using Google's powerful `gemini-2.5-flash-image-preview` model. Simply enter a text prompt, choose your desired aspect ratio, and let the AI bring your ideas to life.
 
-![GenBanana Screenshot](images/Um_camaro_amarelo_com_rodas_al.png)
+![GenBanana Screenshot](./images/Um_camaro_amarelo_com_rodas_al.png)
 *(Note: You will need to add a screenshot of the application to an `images` folder for the image above to display correctly.)*
 
 ## Key Features
