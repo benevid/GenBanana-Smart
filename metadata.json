@@ -1,0 +1,6 @@
+{
+  "name": "GenBanana - AI Image Generation",
+  "description": "A professional tool to generate images using the `gemini-2.5-flash-image-preview` model. Enter a prompt and select an aspect ratio to create unique AI-generated art.",
+  "requestFramePermissions": [],
+  "prompt": ""
+}

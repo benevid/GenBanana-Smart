@@ -1,0 +1,288 @@
+@import url(https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css);
+
+/* --- General & Typography --- */
+:root {
+  --background-color: #fdfdfc;
+  --text-color: #343a40;
+  --subtle-text-color: #6c757d;
+  --border-color: #dee2e6;
+  --surface-color: #ffffff;
+  --placeholder-bg: #f8f9fa;
+  --accent-color: #fdbb2d;
+  --accent-color-hover: #fca903;
+  --error-color: #d9534f;
+  --error-bg-color: #f2dede;
+}
+
+body {
+  background-color: var(--background-color);
+  color: var(--text-color);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    Helvetica, Arial, sans-serif;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  position: relative;
+  overflow: hidden; /* Prevent scrollbars from the pseudo-element */
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 400px;   /* largura da banana */
+  height: 400px;  /* altura da banana */
+  background-image: url('https://storage.googleapis.com/genai-assets/backgrounds/banana_tree_bg.png');
+  background-size: contain;     /* ajusta proporção da banana */
+  background-repeat: no-repeat; /* evita repetição */
+  background-position: bottom left; /* fixa no canto inferior esquerdo */
+  opacity: 0.2;   /* deixa semi-transparente */
+  z-index: -1;
+  pointer-events: none; /* evita bloquear cliques */
+}
+
+/* --- App Layout --- */
+#app-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  max-width: 900px;
+  margin: 0 auto;
+  width: 100%;
+  padding: 0 1rem;
+  box-sizing: border-box;
+}
+
+.app-header {
+  padding: 1rem 0;
+  text-align: center;
+  border-bottom: 1px solid var(--border-color);
+  background: linear-gradient(to bottom, var(--background-color) 80%, transparent);
+  position: relative;
+  z-index: 10;
+}
+
+.app-header h1 {
+  margin: 0;
+  font-size: 1.75rem;
+  font-weight: 600;
+  color: var(--text-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.header-logo {
+  font-size: 2rem;
+  transform: translateY(-2px);
+}
+
+#output-container {
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem 0;
+  overflow: hidden;
+  position: relative;
+}
+
+#image-display-area {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--placeholder-bg);
+  border: 2px dashed var(--border-color);
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  color: var(--subtle-text-color);
+  overflow: hidden;
+  text-align: center;
+  position: relative; /* Needed for positioning the download button */
+}
+
+#image-display-area.has-image {
+  border: 1px solid var(--border-color);
+  background-color: var(--surface-color);
+  padding: 0.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+#image-display-area img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  border-radius: 4px;
+}
+
+/* Download Button */
+.download-btn {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background-color: rgba(0, 0, 0, 0.6);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.3s ease, background-color 0.2s;
+  text-decoration: none;
+  z-index: 20;
+}
+
+#image-display-area:hover .download-btn {
+  opacity: 1;
+}
+
+.download-btn:hover {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+
+/* Placeholder and Loading States */
+.placeholder-icon {
+  stroke: var(--subtle-text-color);
+  margin-bottom: 0.5rem;
+}
+
+.banana-loader {
+  font-size: 48px;
+  display: inline-block;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* --- Controls --- */
+.controls-wrapper {
+  padding: 1rem 0;
+  background: linear-gradient(to top, var(--background-color) 80%, transparent);
+  position: relative;
+  z-index: 10;
+}
+
+.controls {
+  background-color: var(--surface-color);
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  padding: 1rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+#prompt-input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.75rem;
+  font-family: inherit;
+  font-size: 1rem;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  resize: vertical;
+  margin-bottom: 1rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+#prompt-input:focus {
+  outline: none;
+  border-color: var(--accent-color);
+  box-shadow: 0 0 0 3px rgba(253, 187, 45, 0.3);
+}
+
+.settings {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.setting-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+label {
+  color: var(--subtle-text-color);
+  font-size: 0.9rem;
+}
+
+#aspect-ratio-select {
+  padding: 0.5rem;
+  border-radius: 6px;
+  border: 1px solid var(--border-color);
+  background-color: var(--surface-color);
+  font-family: inherit;
+  font-size: 0.9rem;
+}
+
+#generate-btn {
+  background-color: var(--accent-color);
+  color: var(--text-color);
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+#generate-btn:hover {
+  background-color: var(--accent-color-hover);
+}
+
+#generate-btn:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+/* Error Message */
+#error-message {
+  background-color: var(--error-bg-color);
+  color: var(--error-color);
+  border: 1px solid var(--error-color);
+  border-radius: 6px;
+  padding: 0.75rem;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+/* --- Responsiveness --- */
+@media (max-width: 600px) {
+  .app-header h1 {
+    font-size: 1.5rem;
+  }
+
+  .settings {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  #generate-btn {
+    justify-content: center;
+  }
+}
