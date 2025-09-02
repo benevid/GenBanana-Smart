@@ -38,3 +38,7 @@ This technique ensures you have creative control over the final composition, eve
 -   **CSS3**
 -   **TypeScript**
 -   **Google Gemini API** (`@google/genai`)
+
+
+## Link do AI Studio 
+[Projeto AI STUDIO](https://ai.studio/apps/drive/11gn-eZRsX1SktavLpNSkIDT2nU12e55C)
